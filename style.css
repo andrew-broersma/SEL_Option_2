@@ -30,7 +30,8 @@ body {
 }
 
 #messageBox {
-    background: #0954b8;
+    background: #ffffff;
+    color:black;
     width: 20%;
     height: 15%;
     display: flex;
@@ -64,10 +65,12 @@ body {
 
 #messageTitle {
     position: absolute;
+    border-bottom: 1px solid #0954b8;
     top: 8px;
     left: 12px;
     padding-left: 25px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' id='info' d='M12,4a8,8,0,1,0,8,8A8,8,0,0,0,12,4ZM11,7h2V9H11Zm3,10H10V16h1V12H10V11h3v5h1Z'%3E%3C/path%3E%3C/svg%3E");
+    width: 70%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230954b8' id='info' d='M12,4a8,8,0,1,0,8,8A8,8,0,0,0,12,4ZM11,7h2V9H11Zm3,10H10V16h1V12H10V11h3v5h1Z'%3E%3C/path%3E%3C/svg%3E");
     position: absolute;
     background-repeat: no-repeat;
 }
