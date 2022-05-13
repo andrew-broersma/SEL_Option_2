@@ -4,6 +4,8 @@ var div;
 var isDown = false;
 var confirmation = 0;
 
+
+// creating the elements to be used in this app
 button = document.createElement("button");
 button.id = "counterButton";
 button.className = "button outsideLayer";
@@ -45,6 +47,8 @@ div3.id = "messageTitle"
 div3.className = "headerMessage"
 div3.innerHTML = "Confirmation Message"
 
+// creating the html elements and putting them on the page
+
 document.body.appendChild(button);
 document.body.appendChild(div1);
 document.body.appendChild(div)
@@ -53,6 +57,8 @@ div.appendChild(button3)
 div.appendChild(div2)
 div.appendChild(button2);
 
+
+// this part does the setting of the dragging and dropping using offsets to be more accurate and less jumpy
 
 div.addEventListener('mousedown', function(e) {
     isDown = true;
@@ -80,6 +86,8 @@ document.addEventListener('mousemove', function(event) {
     }
 }, true);
 
+
+// Provides functionality and some style to the elements that make up the scrim and alert/message
 document.getElementById('scrim').addEventListener('click', function(e) {
     document.getElementById('scrim').style.display = "none";
     document.getElementById('messageBox').style.display = "none";
