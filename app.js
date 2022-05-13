@@ -103,3 +103,34 @@ document.getElementById('cancelButton').addEventListener("click", function(event
     document.getElementById('scrim').style.display = "none";
     document.getElementById('messageBox').style.display = "none";
 })
+
+
+//doesn't work yet... is supposed to check if a key was pressed
+document.getElementById('increaseButton').addEventListener('keydown', (e) => {
+    if (e.key === "Enter") {
+        confirmation = confirmation += 1
+        document.getElementById('counterButton').innerHTML = `Confirmation Counter: ${confirmation}`
+        document.getElementById('scrim').style.display = "none";
+        document.getElementById('messageBox').style.display = "none";
+    } else if (e.key === "Escape") {
+        document.getElementById('scrim').style.display = "none";
+        document.getElementById('messageBox').style.display = "none";
+    } else {
+        null
+    }
+})
+
+
+//also doesn't work yet... is supposed to move the box into a corner if it goes out of bounds
+let innerX = window.innerWidth - (window.innerWidth*.2);
+let innerY = window.innerHeight - (window.innerHeight*.15);
+
+let rect = document.getElementById('messageBox').getBoundingClientRect();
+
+if (rect.right > innerX) {
+    document.getElementById("messageBox").style.left = innerX
+}
+
+if (rect.bottom > innerY) {
+    document.getElementById("messageBox").style.top = innerY
+}
