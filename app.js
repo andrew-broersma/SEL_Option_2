@@ -38,7 +38,7 @@ div.style.top = "50%";
 div2 = document.createElement("div")
 div2.id = "actualMessage"
 div2.className = "info"
-div2.innerHTML = "Clicking Confirm will increase the counter."
+div2.innerHTML = `Clicking Confirm will increase the counter.`
 
 div3 = document.createElement("div")
 div3.id = "messageTitle"
@@ -105,32 +105,47 @@ document.getElementById('cancelButton').addEventListener("click", function(event
 })
 
 
-//doesn't work yet... is supposed to check if a key was pressed
-document.getElementById('increaseButton').addEventListener('keydown', (e) => {
-    if (e.key === "Enter") {
-        confirmation = confirmation += 1
-        document.getElementById('counterButton').innerHTML = `Confirmation Counter: ${confirmation}`
-        document.getElementById('scrim').style.display = "none";
-        document.getElementById('messageBox').style.display = "none";
-    } else if (e.key === "Escape") {
-        document.getElementById('scrim').style.display = "none";
-        document.getElementById('messageBox').style.display = "none";
-    } else {
-        null
+// check if a key was pressed (enter for okay, esc for cancel)
+document.addEventListener('keyup', (e) => {
+    if (document.getElementById('scrim').style.display === 'block') {
+        if (e.key === "Enter") {
+            confirmation = confirmation += 1
+            document.getElementById('counterButton').innerHTML = `Confirmation Counter: ${confirmation}`
+            document.getElementById('scrim').style.display = "none";
+            document.getElementById('messageBox').style.display = "none";
+        } else if (e.key === "Escape") {
+            document.getElementById('scrim').style.display = "none";
+            document.getElementById('messageBox').style.display = "none";
+        } else {
+            null
+        }
     }
-})
+}, true)
 
 
-//also doesn't work yet... is supposed to move the box into a corner if it goes out of bounds
+//is supposed to move the box back in view if it goes out of bounds: Works now.
 let innerX = window.innerWidth - (window.innerWidth*.2);
 let innerY = window.innerHeight - (window.innerHeight*.15);
 
 let rect = document.getElementById('messageBox').getBoundingClientRect();
 
-if (rect.right > innerX) {
-    document.getElementById("messageBox").style.left = innerX
-}
+document.addEventListener('mouseup', function(event) {
 
-if (rect.bottom > innerY) {
-    document.getElementById("messageBox").style.top = innerY
-}
+    let rect = document.getElementById('messageBox').getBoundingClientRect();
+    console.log(rect)
+    if (rect.right > innerX) {
+        document.getElementById("messageBox").style.left = innerX + 'px'
+    }
+
+    if (rect.bottom > innerY) {
+        document.getElementById("messageBox").style.top = innerY + 'px'
+    }
+
+    if (rect.top < 0) {
+        document.getElementById("messageBox").style.top = 0 + 'px'
+    }
+
+    if (rect.left < 0) {
+        document.getElementById('messageBox').style.left = 0 + 'px'
+    }
+})
