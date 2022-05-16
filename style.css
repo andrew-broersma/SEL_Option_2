@@ -32,8 +32,8 @@ body {
 #messageBox {
     background: #ffffff;
     color:black;
-    width: 20%;
-    height: 15%;
+    width: 25%;
+    height: 20%;
     display: flex;
     flex-direction: column !important;
     align-items: center;
@@ -43,7 +43,7 @@ body {
 #actualMessage {
     position: absolute;
     top: 40%;
-    left: 12px;
+    left: 24px;
 }
 
 #cancelButton {
@@ -52,25 +52,62 @@ body {
     position: absolute;
     top: 4px;
     right: 4px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' id='component_close' d='M12.84,12,18,17.16l-.84.84L12,12.84,6.84,18,6,17.16,11.16,12,6,6.84,6.84,6,12,11.16,17.16,6l.84.84Z'%3E%3C/path%3E%3C/svg%3E");
+    background: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath id='component_close' d='M12.84,12,18,17.16l-.84.84L12,12.84,6.84,18,6,17.16,11.16,12,6,6.84,6.84,6,12,11.16,17.16,6l.84.84Z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+#cancelButton:hover {
+    background: #0000420a;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath id='component_close' d='M12.84,12,18,17.16l-.84.84L12,12.84,6.84,18,6,17.16,11.16,12,6,6.84,6.84,6,12,11.16,17.16,6l.84.84Z'%3E%3C/path%3E%3C/svg%3E");
+
+}
+
+#cancelButton:active {
+    background: #00004214;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath id='component_close' d='M12.84,12,18,17.16l-.84.84L12,12.84,6.84,18,6,17.16,11.16,12,6,6.84,6.84,6,12,11.16,17.16,6l.84.84Z'%3E%3C/path%3E%3C/svg%3E");
+
 }
 
 #increaseButton {
     align-self: flex-end;
-    position: absolute;
-    right:8px;
-    bottom: 8px;
+    margin-right: 12px;
 
 }
 
-#messageTitle {
+#buttonHolder {
     position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-right: 24px;
+}
+
+#otherCancelButton {
+    background: #ffffff;
+    color: black;
+    border: 1px solid black;
+}
+
+#otherCancelButton:hover {
+    background: #0000420a;
+}
+
+#otherCancelButton:active {
+    background: #00004214;
+}
+
+
+#messageTitle {
     border-bottom: 1px solid #0954b8;
-    top: 8px;
-    left: 12px;
-    padding-left: 25px;
-    width: 70%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230954b8' id='info' d='M12,4a8,8,0,1,0,8,8A8,8,0,0,0,12,4ZM11,7h2V9H11Zm3,10H10V16h1V12H10V11h3v5h1Z'%3E%3C/path%3E%3C/svg%3E");
+    color: #0954b8;
+    font-weight: 600;
+    cursor: grab;
+    top: 24px;
+    left: 24px;
+    width: 80%;
     position: absolute;
     background-repeat: no-repeat;
+}#messageTitle:active {
+    cursor: grabbing;
 }
