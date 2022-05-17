@@ -1,218 +1,190 @@
 var mousePosition;
-var offset = [0,0];
-var div;
+var offset = [0, 0];
+var messageBox;
 var isDown = false;
 var confirmation = 0;
 
 
 // creating the elements to be used in this app
-button = document.createElement("button");
-button.id = "counterButton";
-button.className = "button outsideLayer";
-button.innerText = `Confirmation Counter: ${confirmation}`;
-button.onMouseDown = stopFocus
+counterButton = document.createElement("button");
+counterButton.id = "counterButton";
+counterButton.className = "button outsideLayer";
+counterButton.innerText = `Confirmation Counter: ${confirmation}`;
+counterButton.onclick = open
 
-button2 = document.createElement("button");
-button2.id = "increaseButton";
-button2.className = "button insideLayer";
-button2.innerHTML = "Confirm"
-button2.onclick = increaseCount
-// button2.autofocus = true;
+confirmButton = document.createElement("button");
+confirmButton.id = "confirmButton";
+confirmButton.className = "button insideLayer";
+confirmButton.innerHTML = "Confirm"
+confirmButton.onclick = confirm
 
-button3 = document.createElement("button");
-button3.id = "cancelButton";
-button3.className = "button insideLayer";
-button3.onclick = removeDialog
+escButton = document.createElement("button");
+escButton.id = "cancelButton";
+escButton.className = "button insideLayer";
+escButton.onclick = close
 
-button4 = document.createElement("button");
-button4.id = "otherCancelButton";
-button4.className = "button insideLayer"
-button4.innerHTML = "Cancel"
-button4.onclick = removeDialog
+cancelButton = document.createElement("button");
+cancelButton.id = "otherCancelButton";
+cancelButton.className = "button insideLayer"
+cancelButton.innerHTML = "Cancel"
+cancelButton.onclick = close
 
-div1 = document.createElement("div");
-div1.id = "scrim";
-div1.style.display = "none"
-div1.style.position = "absolute";
-div1.style.left = "0px";
-div1.style.top = "0px";
-div1.style.right = "0px";
-div1.style.bottom = "0px";
+scrim = document.createElement("div");
+scrim.id = "scrim";
+scrim.style.display = "none"
+scrim.style.position = "absolute";
+scrim.style.left = "0px";
+scrim.style.top = "0px";
+scrim.style.right = "0px";
+scrim.style.bottom = "0px";
+scrim.onclick = close
 
 
-div = document.createElement("div");
-div.id = "messageBox";
-div.style.display = "flex";
-div.style.position = "absolute";
-div.style.left = "40%";
-div.style.top = "35%";
+messageBox = document.createElement("div");
+messageBox.id = "messageBox";
+messageBox.style.display = "flex";
+messageBox.style.position = "absolute";
+messageBox.style.left = "40%";
+messageBox.style.top = "35%";
 
-div2 = document.createElement("div")
-div2.id = "actualMessage"
-div2.className = "info"
-div2.innerHTML = `Clicking Confirm will increase the counter.`
+messageText = document.createElement("div")
+messageText.id = "actualMessage"
+messageText.className = "info"
+messageText.innerHTML = `Clicking Confirm will increase the counter.`
 
-div3 = document.createElement("div")
-div3.id = "messageTitle"
-div3.className = "headerMessage"
-div3.innerHTML = "Confirmation Message"
+messageTitle = document.createElement("div")
+messageTitle.id = "messageTitle"
+messageTitle.className = "headerMessage"
+messageTitle.innerHTML = "Confirmation Message"
 
-div4 = document.createElement('div')
-div4.id = 'buttonHolder'
-div4.className = "info"
+messageboxButtons = document.createElement('div')
+messageboxButtons.id = 'buttonHolder'
+messageboxButtons.className = "info"
 
 // creating the html elements and putting them on the page
+document.body.appendChild(counterButton);
+document.body.appendChild(scrim);
+messageBox.appendChild(messageTitle)
+messageBox.appendChild(escButton)
+messageBox.appendChild(messageText)
+messageBox.appendChild(messageboxButtons)
+messageboxButtons.appendChild(confirmButton)
+messageboxButtons.appendChild(cancelButton);
 
-document.body.appendChild(button);
-document.body.appendChild(div1);
-
-let countButton = document.getElementById('counterButton')
 
 
-function onKeyUpEnter(e) {
-            console.log("event handler adding check")
-            if (e.target.key === "Enter") {
-                console.log("enter fired")
-                increaseCount()
-                removeDialog()
-            } else {
-                null
-            }
-        }
-function onKeyUpEscape(e) {
-    if (e.target.key === "Escape") {
-        console.log(e.key)
-        removeDialog()
-    }
-}
-
-function addDialog() {
-    document.body.appendChild(div)
-    div.appendChild(div3)
-    div.appendChild(button3)
-    div.appendChild(div2)
-    div.appendChild(div4)
-    div4.appendChild(button2)
-    div4.appendChild(button4);
-        // check if a key was pressed (enter for okay, esc for cancel)
-        document.getElementById('increaseButton').focus()
-        document.getElementById('increaseButton').addEventListener('keyup', (e) => {onKeyUpEnter(e)})
-        document.getElementById('messageBox').addEventListener('keyup', (e) => {onKeyUpEscape(e)})
-    console.log("Dialog Fired")
-}
-
-function removeDialog() {
-    document.getElementById('scrim').style.display = "none";
-    document.getElementById('increaseButton').removeEventListener('keyup', (e) => {onKeyUpEnter(e)})
-    document.getElementById('messageBox').removeEventListener('keyup', (e) => {onKeyUpEscape(e)})
-
-    if (document.getElementById('messageBox') !== null) {
-    document.body.removeChild(div)
-    div.removeChild(div3)
-    div.removeChild(button3)
-    div.removeChild(div2)
-    div.removeChild(div4)
-    div4.removeChild(button2)
-    div4.removeChild(button4);
-    }
-}
-
-function increaseCount() {
-    confirmation++
-    console.log("increase happened")
-    counterButton.innerHTML = `Confirmation Counter: ${confirmation}`
-    // counterButton.blur()
-    // document.getElementById('scrim').style.display = "none";
+/// Opens the messagebox and waits for a keyup event to call openComplete
+function open(e) {
+    scrim.style.display = "block";
+    document.body.appendChild(messageBox)
+    counterButton.blur();
     
-    removeDialog();
+    // here's the hidden magic. A detail value of 0 indicates that the event e
+    // originates from a non-clicked source.
+    if(e.detail == 0) {
+        window.addEventListener('keyup', openComplete);
+        return;
+    }
+    
+    window.addEventListener('keydown', onKeyDown);
+    confirmButton.focus();
 }
 
-function stopFocus() {e => e.preventDefault()}
+
+/// Completes the messagebox open and permits key interactions
+function openComplete() {
+    window.removeEventListener('keyup', openComplete);
+    window.addEventListener('keydown', onKeyDown);
+    confirmButton.focus();
+}
+
+
+/// Closes the messagebox and cleans up
+function close() {
+    scrim.style.display = "none";
+    window.removeEventListener('keydown', onKeyDown)
+    document.body.removeChild(messageBox)
+}
+
+
+/// Increments the counter and closes the messagebox
+function confirm() {
+    confirmation++
+    counterButton.innerHTML = `Confirmation Counter: ${confirmation}`
+    close();
+}
+
+
+/// Handles actions when the Enter or ESC keys are typed.
+function onKeyDown(k) {
+    // notice that the k.target has to be the Confirm button; otherwise I could type Enter when
+    // the Cancel button is focus and confirm would get called.
+    if (k.key === "Enter" && k.target == counterButton) {
+        confirm();
+    }
+    else if (k.key === "Escape") {
+        close();
+    }
+}
 
 
 // this part does the setting of the dragging and dropping using offsets to be more accurate and less jumpy
 
-div.addEventListener('mousedown', function(e) {
+messageBox.addEventListener('mousedown', function (e) {
     if (e.target === document.getElementById("messageTitle")) {
         isDown = true;
         offset = [
-            div.offsetLeft - e.clientX,
-            div.offsetTop - e.clientY
-    ]};
+            messageBox.offsetLeft - e.clientX,
+            messageBox.offsetTop - e.clientY
+        ]
+    };
 }, true);
 
-document.addEventListener('mouseup', function() {
+document.addEventListener('mouseup', function () {
     isDown = false;
 }, true);
 
-document.addEventListener('mousemove', function(event) {
+document.addEventListener('mousemove', function (event) {
     event.preventDefault();
     if (isDown) {
         mousePosition = {
-    
-            x : event.clientX,
-            y : event.clientY
-    
+            x: event.clientX,
+            y: event.clientY
         };
-        div.style.left = (mousePosition.x + offset[0]) + 'px';
-        div.style.top  = (mousePosition.y + offset[1]) + 'px';
+        messageBox.style.left = (mousePosition.x + offset[0]) + 'px';
+        messageBox.style.top = (mousePosition.y + offset[1]) + 'px';
     }
 }, true);
 
 
 // Provides functionality and some style to the elements that make up the scrim and alert/message
-document.getElementById('scrim').addEventListener('click', function(e) {
-    if (document.getElementById("messageBox") !== null) {
-    removeDialog()
-    }
-})
+// document.getElementById('scrim').addEventListener('click', close)
+// document.getElementById("counterButton").addEventListener("click", open)
 
-document.getElementById("counterButton").addEventListener("click", function(event) {
-    document.getElementById("scrim").style.display = "block";
-    addDialog()
-    // counterButton.blur()
-})
-let stupidStuff = false;
-
-if (!stupidStuff) {
-document.getElementById("counterButton").addEventListener("keyup", function(event) {
-    if(event.key === 'Enter') {
-    document.getElementById("scrim").style.display = "block";
-    addDialog()
-    // counterButton.blur()
-    stupidStuff = true
-    }
-})} else {
-document.getElementById("counterButton").removeEventListener("keyup", function(event) {
-    document.getElementById("scrim").style.display = "block";
-    addDialog()
-    // counterButton.blur()
-    stupidStuff = false
-})
-}
 
 //is supposed to move the box back in view if it goes out of bounds: Works now.
-let innerX = window.innerWidth - (window.innerWidth*.25);
-let innerY = window.innerHeight - (window.innerHeight*.20);
+let innerX = window.innerWidth - (window.innerWidth * .25);
+let innerY = window.innerHeight - (window.innerHeight * .20);
 
-document.addEventListener('mouseup', function(event) {
+document.addEventListener('mouseup', function (event) {
     if (document.getElementById('messageBox') !== null) {
 
-    let rect = document.getElementById('messageBox').getBoundingClientRect();
-    // console.log(rect)
-    if (rect.right > innerX) {
-        document.getElementById("messageBox").style.left = innerX + 'px'
-    }
+        let rect = document.getElementById('messageBox').getBoundingClientRect();
+        // console.log(rect)
+        if (rect.right > innerX) {
+            document.getElementById("messageBox").style.left = innerX + 'px'
+        }
 
-    if (rect.bottom > innerY) {
-        document.getElementById("messageBox").style.top = innerY + 'px'
-    }
+        if (rect.bottom > innerY) {
+            document.getElementById("messageBox").style.top = innerY + 'px'
+        }
 
-    if (rect.top < 0) {
-        document.getElementById("messageBox").style.top = 0 + 'px'
-    }
+        if (rect.top < 0) {
+            document.getElementById("messageBox").style.top = 0 + 'px'
+        }
 
-    if (rect.left < 0) {
-        document.getElementById('messageBox').style.left = 0 + 'px'
+        if (rect.left < 0) {
+            document.getElementById('messageBox').style.left = 0 + 'px'
+        }
     }
-}})
+})
